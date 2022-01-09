@@ -5,6 +5,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CustomController extends MapController {
   CustomController({
@@ -46,82 +47,13 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
   void initState() {
     super.initState();
     controller = CustomController(
-      initMapWithUserPosition: false,
-      initPosition: GeoPoint(
-        latitude: 47.4358055,
-        longitude: 8.4737324,
-      ),
-      // areaLimit: BoundingBox(
-      //   east: 10.4922941,
-      //   north: 47.8084648,
-      //   south: 45.817995,
-      //   west: 5.9559113,
-      // ),
+      initMapWithUserPosition: true,
     );
     controller.addObserver(this);
     scaffoldKey = GlobalKey<ScaffoldState>();
-    controller.listenerMapLongTapping.addListener(() async {
-      if (controller.listenerMapLongTapping.value != null) {
-        print(controller.listenerMapLongTapping.value);
-        await controller.addMarker(
-          controller.listenerMapLongTapping.value!,
-          markerIcon: const MarkerIcon(
-            icon: Icon(
-              Icons.store,
-              color: Colors.brown,
-              size: 48,
-            ),
-          ),
-          angle: pi / 3,
-        );
-      }
-    });
-    controller.listenerMapSingleTapping.addListener(() async {
-      if (controller.listenerMapSingleTapping.value != null) {
-        if (lastGeoPoint.value != null) {
-          controller.removeMarker(lastGeoPoint.value!);
-        }
-        print(controller.listenerMapSingleTapping.value);
-        lastGeoPoint.value = controller.listenerMapSingleTapping.value;
-        await controller.addMarker(
-          lastGeoPoint.value!,
-          markerIcon: const MarkerIcon(
-            // icon: Icon(
-            //   Icons.person_pin,
-            //   color: Colors.red,
-            //   size: 32,
-            // ),
-            image: AssetImage("asset/pin.png"),
-            // assetMarker: AssetMarker(
-            //   image: AssetImage("asset/pin.png"),
-            //   //scaleAssetImage: 2,
-            // ),
-          ),
-          //angle: -pi / 4,
-        );
-      }
-    });
-    controller.listenerRegionIsChanging.addListener(() async {
-      if (controller.listenerRegionIsChanging.value != null) {
-        print(controller.listenerRegionIsChanging.value);
-      }
-    });
-
-    //controller.listenerMapIsReady.addListener(mapIsInitialized);
   }
 
   Future<void> mapIsInitialized() async {
-    //await controller.setZoom(zoomLevel: 12);
-    // await controller.setMarkerOfStaticPoint(
-    //   id: "line 1",
-    //   markerIcon: MarkerIcon(
-    //     icon: Icon(
-    //       Icons.train,
-    //       color: Colors.red,
-    //       size: 48,
-    //     ),
-    //   ),
-    // );
     await controller.setMarkerOfStaticPoint(
       id: "line 2",
       markerIcon: const MarkerIcon(
@@ -164,7 +96,6 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
     if (timer != null && timer!.isActive) {
       timer?.cancel();
     }
-    //controller.listenerMapIsReady.removeListener(mapIsInitialized);
     controller.dispose();
     super.dispose();
   }
@@ -178,20 +109,21 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
         title: const Text("IIITD"),
         actions: [
           IconButton(onPressed: () async {
-            RoadInfo roadInfo = await controller.drawRoad(
-              GeoPoint(latitude: 47.35387, longitude: 8.43609),
-              GeoPoint(latitude: 47.4371, longitude: 8.6136),
-              roadType: RoadType.car,
-              roadOption: RoadOption(
-                roadWidth: 10,
-                roadColor: Colors.blue,
-                showMarkerOfPOI: false,
-                zoomInto: true,
-              ),
-            );
-            print("${roadInfo.distance}km");
-            print("${roadInfo.duration}sec");
-          }, icon: const Icon(Icons.search))
+
+            // RoadInfo roadInfo = await controller.drawRoad(
+            //   GeoPoint(latitude: 47.35387, longitude: 8.43609),
+            //   GeoPoint(latitude: 47.4371, longitude: 8.6136),
+            //   roadType: RoadType.car,
+            //   roadOption: RoadOption(
+            //     roadWidth: 10,
+            //     roadColor: Colors.blue,
+            //     showMarkerOfPOI: false,
+            //     zoomInto: true,
+            //   ),
+            // );
+            // print("${roadInfo.distance}km");
+            // print("${roadInfo.duration}sec");
+          }, icon: const Icon(Icons.directions))
         ],
       ),
       body: Stack(
@@ -199,18 +131,10 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
           OSMFlutter(
             controller: controller,
             androidHotReloadSupport: true,
-            mapIsLoading: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  CircularProgressIndicator(),
-                  Text("Map is Loading..")
-                ],
-              ),
+            mapIsLoading: const Center(
+              child: CircularProgressIndicator(),
             ),
-            initZoom: 8,
+            initZoom: 15,
             minZoomLevel: 2,
             maxZoomLevel: 19,
             stepZoom: 1.0,
@@ -219,66 +143,17 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
                 icon: Icon(
                   Icons.location_on,
                   color: Colors.red,
-                  size: 48,
+                  size: 100,
                 ),
               ),
               directionArrowMarker: const MarkerIcon(
                 icon: Icon(
                   Icons.double_arrow,
-                  size: 48,
+                  size: 100,
                 ),
               ),
             ),
             showContributorBadgeForOSM: true,
-            //trackMyPosition: trackingNotifier.value,
-            showDefaultInfoWindow: false,
-            onLocationChanged: (myLocation) {
-              print(myLocation);
-            },
-            onGeoPointClicked: (geoPoint) async {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    geoPoint.toMap().toString(),
-                  ),
-                  action: SnackBarAction(
-                    onPressed: () =>
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-                    label: "hide",
-                  ),
-                ),
-              );
-            },
-            staticPoints: [
-              StaticPositionGeoPoint(
-                "line 1",
-                const MarkerIcon(
-                  icon: Icon(
-                    Icons.train,
-                    color: Colors.green,
-                    size: 48,
-                  ),
-                ),
-                [
-                  GeoPoint(latitude: 47.4333594, longitude: 8.4680184),
-                  GeoPoint(latitude: 47.4317782, longitude: 8.4716146),
-                ],
-              ),
-              /*StaticPositionGeoPoint(
-                    "line 2",
-                    MarkerIcon(
-                      icon: Icon(
-                        Icons.train,
-                        color: Colors.red,
-                        size: 48,
-                      ),
-                    ),
-                    [
-                      GeoPoint(latitude: 47.4433594, longitude: 8.4680184),
-                      GeoPoint(latitude: 47.4517782, longitude: 8.4716146),
-                    ],
-                  )*/
-            ],
             roadConfiguration: RoadConfiguration(
               startIcon: const MarkerIcon(
                 icon: Icon(
@@ -289,115 +164,42 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
               ),
               roadColor: Colors.red,
             ),
-            markerOption: MarkerOption(
-              defaultMarker: const MarkerIcon(
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.orange,
-                  size: 64,
-                ),
-              ),
-              advancedPickerMarker: const MarkerIcon(
-                icon: Icon(
-                  Icons.location_searching,
-                  color: Colors.green,
-                  size: 64,
-                ),
-              ),
-            ),
           ),
           Positioned(
             bottom: 10,
             left: 10,
-            child: ValueListenableBuilder<bool>(
-              valueListenable: advPickerNotifierActivation,
-              builder: (ctx, visible, child) {
-                return Visibility(
-                  visible: visible,
-                  child: AnimatedOpacity(
-                    opacity: visible ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 500),
-                    child: child,
-                  ),
-                );
-              },
-              child: FloatingActionButton(
-                key: UniqueKey(),
-                child: const Icon(Icons.arrow_forward),
-                heroTag: "confirmAdvPicker",
-                onPressed: () async {
-                  advPickerNotifierActivation.value = false;
-                  GeoPoint p = await controller.selectAdvancedPositionPicker();
-                  print(p);
-                },
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 10,
-            left: 10,
-            child: ValueListenableBuilder<bool>(
-              valueListenable: visibilityZoomNotifierActivation,
-              builder: (ctx, visibility, child) {
-                return Visibility(
-                  visible: visibility,
-                  child: child!,
-                );
-              },
-              child: ValueListenableBuilder<bool>(
-                valueListenable: zoomNotifierActivation,
-                builder: (ctx, isVisible, child) {
-                  return AnimatedOpacity(
-                    opacity: isVisible ? 1.0 : 0.0,
-                    onEnd: () {
-                      visibilityZoomNotifierActivation.value = isVisible;
-                    },
-                    duration: const Duration(milliseconds: 500),
-                    child: child,
-                  );
-                },
-                child: Column(
-                  children: [
-                    ElevatedButton(
-                      child: const Icon(Icons.add),
-                      onPressed: () async {
-                        controller.zoomIn();
-                      },
-                    ),
-                    ElevatedButton(
-                      child: const Icon(Icons.remove),
-                      onPressed: () async {
-                        controller.zoomOut();
-                      },
-                    ),
-                  ],
+            child: Column(
+              children: [
+                ElevatedButton(
+                  child: const Icon(Icons.add),
+                  onPressed: () async {
+                    controller.zoomIn();
+                  },
                 ),
-              ),
+                ElevatedButton(
+                  child: const Icon(Icons.remove),
+                  onPressed: () async {
+                    controller.zoomOut();
+                  },
+                ),
+              ],
             ),
           ),
         ],
       ),
-      floatingActionButton: ValueListenableBuilder<bool>(
-        valueListenable: showFab,
-        builder: (ctx, isShow, child) {
-          if (!isShow) {
-            return const SizedBox.shrink();
-          }
-          return child!;
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          GeoPoint coordinates = await controller.myLocation();
+          Fluttertoast.showToast(
+              msg: '${coordinates.latitude}, ${coordinates.longitude}',
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              fontSize: 16.0
+          );
+            await controller.currentLocation();
+            await controller.enableTracking();
         },
-        child: FloatingActionButton(
-          onPressed: () async {
-            // if (!trackingNotifier.value) {
-              await controller.currentLocation();
-              await controller.enableTracking();
-              //await controller.zoom(5.0);
-            // } else {
-            //   await controller.disabledTracking();
-            // }
-            // trackingNotifier.value = !trackingNotifier.value;
-          },
-          child: const Icon(Icons.my_location)
-        ),
+        child: const Icon(Icons.my_location)
       ),
     );
   }
