@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:iiitd_alive/select_locations.dart';
 
 class CustomController extends MapController {
   CustomController({
@@ -109,7 +110,7 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
         title: const Text("IIITD"),
         actions: [
           IconButton(onPressed: () async {
-
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SelectLocation()));
             // RoadInfo roadInfo = await controller.drawRoad(
             //   GeoPoint(latitude: 47.35387, longitude: 8.43609),
             //   GeoPoint(latitude: 47.4371, longitude: 8.6136),
