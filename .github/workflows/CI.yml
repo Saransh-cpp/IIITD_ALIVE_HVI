@@ -2,6 +2,7 @@ name: CI
 
 on:
   workflow_dispatch:
+  push:
   pull_request:
 
   # everyday at 3 am UTC
