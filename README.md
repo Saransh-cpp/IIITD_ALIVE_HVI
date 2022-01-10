@@ -34,8 +34,8 @@ Submission for IIITD's ALIVE lab round 2.
 
 **MockUps**
 <p align="centre">
-    <img src="./readme_assets/overall_app.png" height=500/>
-    <img src="./readme_assets/pick_up_and_drop.png" height=500/>
+    <img src="./readme_assets/overall_app.png"/>
+    <img src="./readme_assets/pick_up_and_drop.png"/>
 </p>
 
 
