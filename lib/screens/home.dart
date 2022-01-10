@@ -16,15 +16,22 @@ class MainExample extends StatefulWidget {
 }
 
 class _MainExampleState extends State<MainExample> {
+
+  // MapController for flutter_osm plugin
   late MapController controller;
-  late GlobalKey<ScaffoldState> scaffoldKey;
   Timer? timer;
+
+  // store if the user is tracking their location
   ValueNotifier<bool> trackingNotifier = ValueNotifier(false);
+
+  // check if a path exists if the user wants to clear one
   ValueNotifier<bool> clear = ValueNotifier(false);
 
   @override
   void initState() {
     super.initState();
+
+    // initialise the map with user's position
     controller = MapController(
       initMapWithUserPosition: true,
     );
@@ -39,6 +46,83 @@ class _MainExampleState extends State<MainExample> {
     super.dispose();
   }
 
+  // a wrapper method for `MapController.drawRoad`
+  // takes in 2 locations from a user and visualises the path from
+  // the pickup point to the drop point
+  void drawRoad() async {
+    // push the `SelectionLocation` screen and wait for the coordinates of
+    // 2 points which will be used to construct a path
+    var coordinates = await Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const SelectLocation()));
+
+    // the returned value is a list of strings of the form
+    // ["latitude1, longitude1", "latitude2, longitude2"]
+    // hence, process the variable to obtain the pickup point
+    List point1 = [
+      double.parse(coordinates[0].split(",")[0].trim()),
+      double.parse(coordinates[0].split(",")[1].trim())
+    ];
+    // process the variable to obtain the drop point
+    List point2 = [
+      double.parse(coordinates[1].split(",")[0].trim()),
+      double.parse(coordinates[1].split(",")[1].trim())
+    ];
+
+    // draw a road between the pickup and drop point for a car
+    RoadInfo roadInfo = await controller.drawRoad(
+      GeoPoint(
+        latitude: point1[0],
+        longitude: point1[1],
+      ),
+      GeoPoint(
+        latitude: point2[0],
+        longitude: point2[1],
+      ),
+      roadType: RoadType.car,
+      roadOption: RoadOption(
+        roadWidth: 10,
+        roadColor: Colors.blue,
+        showMarkerOfPOI: true,  // marks the pickup and drop point
+        zoomInto: true,  // zooms into the road
+      ),
+    );
+
+    // set the value of clear to true as we have a path on the map now
+    clear.value = true;
+    print("${roadInfo.distance}km");
+    print("${roadInfo.duration}sec");
+  }
+
+  // show or hide the current location of a user
+  void showLocation() async {
+    // if the user has not already requested to show their location
+    if (!trackingNotifier.value) {
+
+      // obtain the coordinated of user
+      GeoPoint coordinates = await controller.myLocation();
+
+      // move the map to user's current location and start tracking
+      await controller.currentLocation();
+      await controller.enableTracking();
+
+      // display the coordinated using a toast
+      Fluttertoast.showToast(
+          msg: '${coordinates.latitude}, ${coordinates.longitude}',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          fontSize: 16.0
+      );
+    }
+    // if the location is already being tracked
+    else {
+      // disable location tracking
+      await controller.disabledTracking();
+    }
+
+    // update the value of notifier for next iteration
+    trackingNotifier.value = !trackingNotifier.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,39 +132,8 @@ class _MainExampleState extends State<MainExample> {
           backgroundColor: Colors.deepOrange[600],
           title: const Text("Human Vehicle Interaction"),
           actions: [
-            IconButton(onPressed: () async {
-              var coordinates = await Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const SelectLocation()));
-              List point1 = [
-                double.parse(coordinates[0].split(",")[0].trim()),
-                double.parse(coordinates[0].split(",")[1].trim())
-              ];
-              List point2 = [
-                double.parse(coordinates[1].split(",")[0].trim()),
-                double.parse(coordinates[1].split(",")[1].trim())
-              ];
-              print(coordinates[0]);
-              RoadInfo roadInfo = await controller.drawRoad(
-                GeoPoint(
-                  latitude: point1[0],
-                  longitude: point1[1],
-                ),
-                GeoPoint(
-                  latitude: point2[0],
-                  longitude: point2[1],
-                ),
-                roadType: RoadType.car,
-                roadOption: RoadOption(
-                  roadWidth: 10,
-                  roadColor: Colors.blue,
-                  showMarkerOfPOI: true,
-                  zoomInto: true,
-                ),
-              );
-              clear.value = true;
-              print("${roadInfo.distance}km");
-              print("${roadInfo.duration}sec");
-            }, icon: const Icon(Icons.directions))
+            // select 2 points and visualise the path between them on map
+            IconButton(onPressed: drawRoad, icon: const Icon(Icons.directions))
           ],
         ),
         body: Stack(
@@ -91,10 +144,12 @@ class _MainExampleState extends State<MainExample> {
               mapIsLoading: const Center(
                 child: CircularProgressIndicator(),
               ),
-              initZoom: 15,
-              minZoomLevel: 2,
-              maxZoomLevel: 19,
+              initZoom: 15,  // default zoom of the map when it is loaded
+              minZoomLevel: 2,  // minimum zoom level a user can use
+              maxZoomLevel: 19,  // maximum zoom level a user can use
               stepZoom: 1.0,
+
+              // marker used for user's current location
               userLocationMarker: UserLocationMaker(
                 personMarker: const MarkerIcon(
                   icon: Icon(
@@ -103,6 +158,8 @@ class _MainExampleState extends State<MainExample> {
                     size: 100,
                   ),
                 ),
+
+                // to display the direction of the motion of user
                 directionArrowMarker: const MarkerIcon(
                   icon: Icon(
                     Icons.double_arrow,
@@ -110,7 +167,11 @@ class _MainExampleState extends State<MainExample> {
                   ),
                 ),
               ),
+
+              // acknowledging open source contributions
               showContributorBadgeForOSM: true,
+
+              // configurations for drawing a path/road
               roadConfiguration: RoadConfiguration(
                 startIcon: const MarkerIcon(
                   icon: Icon(
@@ -132,14 +193,25 @@ class _MainExampleState extends State<MainExample> {
             Positioned(
               top:10,
               right: 10,
+
+                // listens to clear,
+                // shows a button to remove the highlighted path
+                // if the value of clear is true (if a path is present
+                // on the map)
               child: ValueListenableBuilder<bool>(
                 valueListenable: clear,
                 builder: (ctx, p, builderChild) {
-                  if (p){
+                  // if there is a path, show a button to remove the same
+                  if (p) {
                   return FloatingActionButton(
                     backgroundColor: Colors.deepOrange[600],
                       onPressed: () async {
+
+                      // remove the road/path present on map
                       await controller.removeLastRoad();
+
+                      // set the value of clear as false (no path
+                      // is present on the map now)
                       clear.value = false;
                   },
                       child: const Icon(Icons.clear_rounded));
@@ -154,6 +226,9 @@ class _MainExampleState extends State<MainExample> {
               left: 10,
               child: Column(
                 children: [
+
+                  // 2 buttons for zooming in and zooming out
+                  // to make the process more accessible on emulator
                   ElevatedButton(
                     child: const Icon(Icons.add),
                     style: ElevatedButton.styleFrom(
@@ -177,24 +252,11 @@ class _MainExampleState extends State<MainExample> {
             ),
           ],
         ),
+
+        // centre the map to user's current coordinates
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.deepOrange[600],
-            onPressed: () async {
-              if (!trackingNotifier.value) {
-                GeoPoint coordinates = await controller.myLocation();
-                await controller.currentLocation();
-                await controller.enableTracking();
-                Fluttertoast.showToast(
-                    msg: '${coordinates.latitude}, ${coordinates.longitude}',
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.CENTER,
-                    fontSize: 16.0
-                );
-              } else {
-                await controller.disabledTracking();
-              }
-              trackingNotifier.value = !trackingNotifier.value;
-            },
+            onPressed: showLocation,
             child: const Icon(Icons.my_location)
         ),
       ),
