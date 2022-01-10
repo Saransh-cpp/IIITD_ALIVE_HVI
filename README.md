@@ -8,9 +8,9 @@ Submission for IIITD's ALIVE lab round 2.
 - `Flutter`
 - `Dart`
 - `Open Street Map` API
-- [`flutter_osm_plugin`]()
-- [`flutter_toast`]()
-- [`CI`]() pipeline using `GitHub Actions`
+- [`flutter_osm_plugin`](https://pub.dev/packages/flutter_osm_plugin)
+- [`flutter_toast`](https://pub.dev/packages/fluttertoast)
+- `CI` pipeline using `GitHub Actions`
 
 ## Features
 - The application integrates the `Open Street Map` API with `Flutter`.
@@ -22,12 +22,13 @@ Submission for IIITD's ALIVE lab round 2.
 ## Overall pipeline and visuals
 
 **Relevant files**
-- [`main.dart`]()
-- [`screens/home.dart`]()
-- [`screens/select_locations.dart`]()
-- [`screens/search_location.dart`]()
-- [`.github/workflows/CI.yml`]()
-- [`README.md`]()
+- [`main.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/main.dart)
+- [`screens/home.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/home.dart)
+- [`screens/select_locations.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/select_locations.dart)
+- [`screens/search_location.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/search_location.dart)
+- [`screens/splash.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/splash.dart)
+- [`.github/workflows/CI.yml`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/.github/workflows/CI.yml)
+- [`README.md`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/README.md)
 
 **Pipeline**
 
@@ -39,8 +40,8 @@ Submission for IIITD's ALIVE lab round 2.
 ### Task1
 
 **Relevant files**
-- [`main.dart`]()
-- [`home.dart`]()
+- [`main.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/main.dart)
+- [`home.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/home.dart)
 
 **Pipeline**
 - The application opens up the integrated `Open Street Map` API on the home screen, which is launched my `main` method available in `main.dart`.
@@ -54,7 +55,7 @@ Submission for IIITD's ALIVE lab round 2.
 ### Task2
 
 **Relevant files**
-- [`home.dart`]()
+- [`home.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/home.dart)
 
 **Pipeline**
 
@@ -65,8 +66,8 @@ Submission for IIITD's ALIVE lab round 2.
 ### Task3
 
 **Relevant files**
-- [`select_locations.dart`]()
-- [`search_location.dart`]()
+- [`select_locations.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/select_locations.dart)
+- [`search_location.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/search_location.dart)
 
 **Pipeline**
 
@@ -77,9 +78,9 @@ Submission for IIITD's ALIVE lab round 2.
 ### Task4
 
 **Relevant files**
-- [`home.dart`]()
-- [`select_locations.dart`]()
-- [`search_location.dart`]()
+- [`home.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/home.dart)
+- [`select_locations.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/select_locations.dart)
+- [`search_location.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/search_location.dart)
 
 **Pipeline**
 
@@ -90,7 +91,7 @@ Submission for IIITD's ALIVE lab round 2.
 ### Task5
 
 **Relevant files**
-- [`README.md`]()
+- [`README.md`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/README.md)
 - All the files are well commented.
 
 **Pipeline**
