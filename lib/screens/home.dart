@@ -8,14 +8,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'select_locations.dart';
 
 
-class MainExample extends StatefulWidget {
-  const MainExample({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  _MainExampleState createState() => _MainExampleState();
+  _HomeState createState() => _HomeState();
 }
 
-class _MainExampleState extends State<MainExample> {
+class _HomeState extends State<Home> {
 
   // MapController for flutter_osm plugin
   late MapController controller;

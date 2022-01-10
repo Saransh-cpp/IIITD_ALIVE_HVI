@@ -12,6 +12,8 @@ class SelectLocation extends StatefulWidget {
 
 class _SelectLocationState extends State<SelectLocation> {
 
+  // notifiers and variables to check if the user has selected a location
+  // and to store the coordinates respectively
   ValueNotifier<GeoPoint?> start = ValueNotifier(null);
   String coordinatesStart = "";
 
