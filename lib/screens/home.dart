@@ -85,8 +85,13 @@ class _HomeState extends State<Home> {
 
     // set the value of clear to true as we have a path on the map now
     clear.value = true;
-    print("${roadInfo.distance}km");
-    print("${roadInfo.duration}sec");
+
+    Fluttertoast.showToast(
+        msg: "${roadInfo.distance} km | ${roadInfo.duration} sec",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        fontSize: 16.0
+    );
   }
 
   // show or hide the current location of a user
@@ -126,7 +131,7 @@ class _HomeState extends State<Home> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.deepOrange[600],
-          title: const Text("Human Vehicle Interaction"),
+          title: const Text("Human Vehicle Interface"),
           actions: [
             // select 2 points and visualise the path between them on map
             IconButton(onPressed: drawRoad, icon: const Icon(Icons.directions))

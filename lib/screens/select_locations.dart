@@ -83,33 +83,21 @@ class _SelectLocationState extends State<SelectLocation> {
                       valueListenable: start,
                       builder: (ctx, p, child) {
                         return Center(
-                          child: p == null ? ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.deepOrange[600]
-                            ),
-                            onPressed: () async {
-                              // push the search screen and wait for a `GeoPoint` object
-                              var p = await Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) => const SearchLocation()));
-
-                              // if the user selects a location, extract the coordinates
-                              if (p != null) {
-                                coordinatesStart =
-                                "${(p as GeoPoint).latitude}, ${p.longitude}";
-                                start.value = p;
-                              }
-                            },
-                            child: const Text("Select pickup point"),
-                          ) :
-
-                          // if p is not null (has the value of coordinates) -> show the coordinates
-                          // and a button to pick the location again
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(coordinatesStart),
-                              IconButton(onPressed: () async {
+                          child: p == null ? Container(
+                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                            width: MediaQuery.of(context).size.width* 0.4,
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                  color: Colors.deepOrange[400]
+                              ),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.deepOrange[400],
+                                shadowColor: Colors.deepOrange[400],
+                                elevation: 0,
+                              ),
+                              onPressed: () async {
                                 // push the search screen and wait for a `GeoPoint` object
                                 var p = await Navigator.of(context).push(
                                     MaterialPageRoute(
@@ -121,8 +109,43 @@ class _SelectLocationState extends State<SelectLocation> {
                                   "${(p as GeoPoint).latitude}, ${p.longitude}";
                                   start.value = p;
                                 }
-                              }, icon: const Icon(Icons.restore_outlined))
-                            ],
+                              },
+                              child: const Text("Select pickup point", style: TextStyle(color: Colors.white),),
+                            ),
+                          ) :
+
+                          // if p is not null (has the value of coordinates) -> show the coordinates
+                          // and a button to pick the location again
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10)),
+                                color: Colors.deepOrange[400]
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(coordinatesStart, style: const TextStyle(color: Colors.white),),
+                                  IconButton(onPressed: () async {
+                                    // push the search screen and wait for a `GeoPoint` object
+                                    var p = await Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) => const SearchLocation()));
+
+                                    // if the user selects a location, extract the coordinates
+                                    if (p != null) {
+                                      coordinatesStart =
+                                      "${(p as GeoPoint).latitude}, ${p.longitude}";
+                                      start.value = p;
+                                    }
+                                  }, icon: const Icon(Icons.restore_outlined, color: Colors.white,))
+                                ],
+                              ),
+                            ),
                           ),
                         );
                       },
@@ -139,33 +162,20 @@ class _SelectLocationState extends State<SelectLocation> {
                           // check if p is null, as the value of end
                           // is initialised as null,
                           // if it is null -> display a button to select location
-                          child: p == null ? ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.deepOrange[600]
+                          child: p == null ? Container(
+                            width: MediaQuery.of(context).size.width* 0.4,
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10)),
+                                color: Colors.deepOrange[400]
                             ),
-                            onPressed: () async {
-                              // push the search screen and wait for a `GeoPoint` object
-                              var p = await Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) => const SearchLocation()));
-
-                              // if the user selects a location, extract the coordinates
-                              if (p != null) {
-                                coordinatesEnd =
-                                "${(p as GeoPoint).latitude}, ${p.longitude}";
-                                end.value = p;
-                              }
-                            },
-                            child: const Text("Select drop point"),
-                          ) :
-
-                          // if p is not null (has the value of coordinates) -> show the coordinates
-                          // and a button to pick the location again
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(coordinatesEnd),
-                              IconButton(onPressed: () async {
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.deepOrange[400],
+                                shadowColor: Colors.deepOrange[400],
+                                elevation: 0,
+                              ),
+                              onPressed: () async {
                                 // push the search screen and wait for a `GeoPoint` object
                                 var p = await Navigator.of(context).push(
                                     MaterialPageRoute(
@@ -177,8 +187,42 @@ class _SelectLocationState extends State<SelectLocation> {
                                   "${(p as GeoPoint).latitude}, ${p.longitude}";
                                   end.value = p;
                                 }
-                              }, icon: const Icon(Icons.restore_outlined))
-                            ],
+                              },
+                              child: const Text("Select drop point", style: TextStyle(color: Colors.white),),
+                            ),
+                          ) :
+
+                          // if p is not null (has the value of coordinates) -> show the coordinates
+                          // and a button to pick the location again
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10)),
+                                color: Colors.deepOrange[400]
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(coordinatesEnd, style: const TextStyle(color: Colors.white),),
+                                  IconButton(onPressed: () async {
+                                    // push the search screen and wait for a `GeoPoint` object
+                                    var p = await Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) => const SearchLocation()));
+
+                                    // if the user selects a location, extract the coordinates
+                                    if (p != null) {
+                                      coordinatesEnd =
+                                      "${(p as GeoPoint).latitude}, ${p.longitude}";
+                                      end.value = p;
+                                    }
+                                  }, icon: const Icon(Icons.restore_outlined, color: Colors.white,))
+                                ],
+                              ),
+                            ),
                           ),
                         );
                       },
