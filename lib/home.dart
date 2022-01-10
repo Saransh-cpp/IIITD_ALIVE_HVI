@@ -8,21 +8,6 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iiitd_alive/select_locations.dart';
 
-class CustomController extends MapController {
-  CustomController({
-    bool initMapWithUserPosition = true,
-    GeoPoint? initPosition,
-    BoundingBox? areaLimit = const BoundingBox.world(),
-  })
-      : assert(
-  initMapWithUserPosition || initPosition != null,
-  ),
-        super(
-        initMapWithUserPosition: initMapWithUserPosition,
-        initPosition: initPosition,
-        areaLimit: areaLimit,
-      );
-}
 
 class MainExample extends StatefulWidget {
   const MainExample({Key? key}) : super(key: key);
@@ -31,59 +16,19 @@ class MainExample extends StatefulWidget {
   _MainExampleState createState() => _MainExampleState();
 }
 
-class _MainExampleState extends State<MainExample> with OSMMixinObserver {
-  late CustomController controller;
+class _MainExampleState extends State<MainExample> {
+  late MapController controller;
   late GlobalKey<ScaffoldState> scaffoldKey;
   Key mapGlobalkey = UniqueKey();
   Timer? timer;
-  int x = 0;
+  ValueNotifier<bool> trackingNotifier = ValueNotifier(false);
 
   @override
   void initState() {
     super.initState();
-    controller = CustomController(
+    controller = MapController(
       initMapWithUserPosition: true,
     );
-    controller.addObserver(this);
-    scaffoldKey = GlobalKey<ScaffoldState>();
-  }
-
-  Future<void> mapIsInitialized() async {
-    await controller.setMarkerOfStaticPoint(
-      id: "line 2",
-      markerIcon: const MarkerIcon(
-        icon: Icon(
-          Icons.train,
-          color: Colors.orange,
-          size: 48,
-        ),
-      ),
-    );
-
-    await controller.setStaticPosition(
-      [
-        GeoPointWithOrientation(
-          latitude: 47.4433594,
-          longitude: 8.4680184,
-          angle: pi / 4,
-        ),
-        GeoPointWithOrientation(
-          latitude: 47.4517782,
-          longitude: 8.4716146,
-          angle: pi / 2,
-        ),
-      ],
-      "line 2",
-    );
-    final bounds = await controller.bounds;
-    print(bounds.toString());
-  }
-
-  @override
-  Future<void> mapIsReady(bool isReady) async {
-    if (isReady) {
-      await mapIsInitialized();
-    }
   }
 
   @override
@@ -98,7 +43,6 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("IIITD"),
@@ -116,14 +60,6 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
               double.parse(coordinates[1].split(",")[1].trim())
             ];
             print(coordinates[0]);
-            await controller.addMarker(GeoPoint(latitude: point1[0],
-              longitude: point1[1],), markerIcon: const MarkerIcon(
-              icon: Icon(Icons.pin),
-            ));
-            await controller.addMarker(GeoPoint(latitude: point2[0],
-              longitude: point2[1],), markerIcon: const MarkerIcon(
-              icon: Icon(Icons.pin_drop),
-            ));
             RoadInfo roadInfo = await controller.drawRoad(
               GeoPoint(
                 latitude: point1[0],
@@ -137,7 +73,7 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
               roadOption: RoadOption(
                 roadWidth: 10,
                 roadColor: Colors.blue,
-                showMarkerOfPOI: false,
+                showMarkerOfPOI: true,
                 zoomInto: true,
               ),
             );
@@ -177,9 +113,16 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
             roadConfiguration: RoadConfiguration(
               startIcon: const MarkerIcon(
                 icon: Icon(
-                  Icons.person,
-                  size: 64,
-                  color: Colors.brown,
+                  Icons.location_history,
+                  size: 100,
+                  color: Colors.red,
+                ),
+              ),
+              endIcon: const MarkerIcon(
+                icon: Icon(
+                  Icons.beenhere_rounded,
+                  size: 100,
+                  color: Colors.red,
                 ),
               ),
               roadColor: Colors.red,
@@ -209,15 +152,20 @@ class _MainExampleState extends State<MainExample> with OSMMixinObserver {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            GeoPoint coordinates = await controller.myLocation();
-            Fluttertoast.showToast(
-                msg: '${coordinates.latitude}, ${coordinates.longitude}',
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.CENTER,
-                fontSize: 16.0
-            );
-            await controller.currentLocation();
-            await controller.enableTracking();
+            if (!trackingNotifier.value) {
+              GeoPoint coordinates = await controller.myLocation();
+              await controller.currentLocation();
+              await controller.enableTracking();
+              Fluttertoast.showToast(
+                  msg: '${coordinates.latitude}, ${coordinates.longitude}',
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.CENTER,
+                  fontSize: 16.0
+              );
+            } else {
+              await controller.disabledTracking();
+            }
+            trackingNotifier.value = !trackingNotifier.value;
           },
           child: const Icon(Icons.my_location)
       ),
