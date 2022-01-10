@@ -29,6 +29,13 @@ class _SelectLocationState extends State<SelectLocation> {
       ),
       body: Stack(
           children: [
+            Positioned(child: FloatingActionButton(
+              backgroundColor: Colors.deepOrange[600],
+              child: const Icon(Icons.chevron_left),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )),
             Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(

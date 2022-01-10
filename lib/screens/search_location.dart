@@ -9,9 +9,26 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  late PickerMapController controller = PickerMapController(
-    initMapWithUserPosition: true,
-  );
+
+  // create a controller to pick up location provided by user
+  late PickerMapController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // initialise the controller with user's current location
+    controller = PickerMapController(
+      initMapWithUserPosition: true,
+    );
+  }
+
+  // pick the location selected by user and pass the `GeoPoint` object
+  // back to the previous screen
+  void pickLocation () async {
+    GeoPoint point = await controller.selectAdvancedPositionPicker();
+    Navigator.pop(context, point);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +39,8 @@ class _SearchPageState extends State<SearchPage> {
           bottom: 12,
           right: 8,
           child: FloatingActionButton(
-            onPressed: () async {
-              GeoPoint p = await controller.selectAdvancedPositionPicker();
-              Navigator.pop(context, p);
-            },
+            backgroundColor: Colors.deepOrange[600],
+            onPressed: pickLocation,
             child: const Icon(Icons.arrow_forward),
           ),
         ),
