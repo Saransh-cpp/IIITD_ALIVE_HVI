@@ -1,4 +1,6 @@
-# iiitd_alive
+# IIITD ALIVE HSI submission
+
+[![CI](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/actions/workflows/CI.yml/badge.svg)](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/actions/workflows/CI.yml)
 
 IIITD ALIVE round 2 submission
 
