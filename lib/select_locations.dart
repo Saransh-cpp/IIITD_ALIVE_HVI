@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SelectLocation extends StatefulWidget {
   const SelectLocation({Key? key}) : super(key: key);
@@ -103,6 +104,18 @@ class _SelectLocationState extends State<SelectLocation> {
                 );
               },
             ),
+            ElevatedButton(onPressed: () {
+              if (coordinatesEnd == "" || coordinatesStart == "") {
+                Fluttertoast.showToast(
+                    msg: 'Please select both the locations',
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.CENTER,
+                    fontSize: 16.0
+                );
+              } else {
+                Navigator.of(context).pop([coordinatesStart, coordinatesEnd]);
+              }
+            }, child: const Text("Done?"))
           ],
         ),
       ),
