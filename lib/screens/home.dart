@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,7 +17,6 @@ class _HomeState extends State<Home> {
 
   // MapController for flutter_osm plugin
   late MapController controller;
-  Timer? timer;
 
   // store if the user is tracking their location
   ValueNotifier<bool> trackingNotifier = ValueNotifier(false);
@@ -39,9 +36,6 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-    if (timer != null && timer!.isActive) {
-      timer?.cancel();
-    }
     controller.dispose();
     super.dispose();
   }
@@ -54,6 +48,8 @@ class _HomeState extends State<Home> {
     // 2 points which will be used to construct a path
     var coordinates = await Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const SelectLocation()));
+
+    if (coordinates == null) return;
 
     // the returned value is a list of strings of the form
     // ["latitude1, longitude1", "latitude2, longitude2"]

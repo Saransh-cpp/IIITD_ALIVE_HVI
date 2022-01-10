@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+class SearchLocation extends StatefulWidget {
+  const SearchLocation({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _SearchPageState();
+  State<StatefulWidget> createState() => _SearchLocationState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchLocationState extends State<SearchLocation> {
 
   // create a controller to pick up location provided by user
   late PickerMapController controller;
@@ -41,7 +41,7 @@ class _SearchPageState extends State<SearchPage> {
           child: FloatingActionButton(
             backgroundColor: Colors.deepOrange[600],
             onPressed: pickLocation,
-            child: const Icon(Icons.arrow_forward),
+            child: const Icon(Icons.chevron_right),
           ),
         ),
         initZoom: 15,

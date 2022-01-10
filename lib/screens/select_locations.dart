@@ -22,76 +22,76 @@ class _SelectLocationState extends State<SelectLocation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-          children: [
-
-            // a better looking back button
-            Positioned(child: FloatingActionButton(
-              backgroundColor: Colors.deepOrange[600],
-              child: const Icon(Icons.chevron_left),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )),
-
-            // background image
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/background.jpg"),
-                  fit: BoxFit.cover,),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Stack(
+            children: [
+              // background image
+              Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/background.jpg"),
+                    fit: BoxFit.cover,),
+                ),
               ),
-            ),
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("Please select your pickup and drop location",
-                    style: TextStyle(color: Colors.deepOrange[600]),),
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height / 6,),
 
-                  // getting the pickup point from the user
-                  // if the user has selected a location -> display the coordinates
-                  // if the user has not selected the location -> display a button to select location
-                  ValueListenableBuilder<GeoPoint?>(
-                    valueListenable: start,
-                    builder: (ctx, p, child) {
-                      return Center(
-                        child: p == null ? ElevatedButton(
-                          onPressed: () async {
-                            // push the search screen and wait for a `GeoPoint` object
-                            var p = await Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (_) => const SearchPage()));
+              // a better looking back button
+              Positioned(
+                  top: 10,
+                  left: 10,
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.deepOrange[600],
+                    child: const Icon(Icons.chevron_left),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )),
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
 
-                            // if the user selects a location, extract the coordinates
-                            if (p != null) {
-                              coordinatesStart =
-                              "${(p as GeoPoint).latitude}, ${p.longitude}";
-                              start.value = p;
-                            }
-                          },
-                          child: const Text("Select pickup point"),
-                        ) :
+                    // styled text
+                    Container(
+                      // margin: const EdgeInsets.fromLTRB(40, 20, 40, 40),
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(10)),
+                        color: Colors.white
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Select your pickup\nand drop location!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.deepOrange[600],
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold),),
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height / 10,),
 
-                        // if p is not null (has the value of coordinates) -> show the coordinates
-                        // and a button to pick the location again
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(coordinatesStart),
-                            IconButton(onPressed: () async {
+                    // getting the pickup point from the user
+                    // if the user has selected a location -> display the coordinates
+                    // if the user has not selected the location -> display a button to select location
+                    ValueListenableBuilder<GeoPoint?>(
+                      valueListenable: start,
+                      builder: (ctx, p, child) {
+                        return Center(
+                          child: p == null ? ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.deepOrange[600]
+                            ),
+                            onPressed: () async {
                               // push the search screen and wait for a `GeoPoint` object
                               var p = await Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (_) => const SearchPage()));
+                                      builder: (_) => const SearchLocation()));
 
                               // if the user selects a location, extract the coordinates
                               if (p != null) {
@@ -99,52 +99,55 @@ class _SelectLocationState extends State<SelectLocation> {
                                 "${(p as GeoPoint).latitude}, ${p.longitude}";
                                 start.value = p;
                               }
-                            }, icon: const Icon(Icons.restore_outlined))
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                            },
+                            child: const Text("Select pickup point"),
+                          ) :
 
-                  // getting the drop point from the user
-                  // if the user has selected a location -> display the coordinates
-                  // if the user has not selected the location -> display a button to select location
-                  ValueListenableBuilder<GeoPoint?>(
-                    valueListenable: end,
-                    builder: (ctx, p, child) {
-                      return Center(
+                          // if p is not null (has the value of coordinates) -> show the coordinates
+                          // and a button to pick the location again
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(coordinatesStart),
+                              IconButton(onPressed: () async {
+                                // push the search screen and wait for a `GeoPoint` object
+                                var p = await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (_) => const SearchLocation()));
 
-                        // check if p is null, as the value of end
-                        // is initialised as null,
-                        // if it is null -> display a button to select location
-                        child: p == null ? ElevatedButton(
-                          onPressed: () async {
-                            // push the search screen and wait for a `GeoPoint` object
-                            var p = await Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (_) => const SearchPage()));
+                                // if the user selects a location, extract the coordinates
+                                if (p != null) {
+                                  coordinatesStart =
+                                  "${(p as GeoPoint).latitude}, ${p.longitude}";
+                                  start.value = p;
+                                }
+                              }, icon: const Icon(Icons.restore_outlined))
+                            ],
+                          ),
+                        );
+                      },
+                    ),
 
-                            // if the user selects a location, extract the coordinates
-                            if (p != null) {
-                              coordinatesEnd =
-                              "${(p as GeoPoint).latitude}, ${p.longitude}";
-                              end.value = p;
-                            }
-                          },
-                          child: const Text("Select drop point"),
-                        ) :
+                    // getting the drop point from the user
+                    // if the user has selected a location -> display the coordinates
+                    // if the user has not selected the location -> display a button to select location
+                    ValueListenableBuilder<GeoPoint?>(
+                      valueListenable: end,
+                      builder: (ctx, p, child) {
+                        return Center(
 
-                        // if p is not null (has the value of coordinates) -> show the coordinates
-                        // and a button to pick the location again
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(coordinatesEnd),
-                            IconButton(onPressed: () async {
+                          // check if p is null, as the value of end
+                          // is initialised as null,
+                          // if it is null -> display a button to select location
+                          child: p == null ? ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.deepOrange[600]
+                            ),
+                            onPressed: () async {
                               // push the search screen and wait for a `GeoPoint` object
                               var p = await Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (_) => const SearchPage()));
+                                      builder: (_) => const SearchLocation()));
 
                               // if the user selects a location, extract the coordinates
                               if (p != null) {
@@ -152,53 +155,80 @@ class _SelectLocationState extends State<SelectLocation> {
                                 "${(p as GeoPoint).latitude}, ${p.longitude}";
                                 end.value = p;
                               }
-                            }, icon: const Icon(Icons.restore_outlined))
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                            },
+                            child: const Text("Select drop point"),
+                          ) :
 
-                  // a button to construct the path between 2 selected points
-                  // the container is meant for styling
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(40, 20, 40, 40),
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                            Radius.circular(10)),
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.deepOrange[600]!,
-                            Colors.deepOrange[400]!
-                          ],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        )
+                          // if p is not null (has the value of coordinates) -> show the coordinates
+                          // and a button to pick the location again
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(coordinatesEnd),
+                              IconButton(onPressed: () async {
+                                // push the search screen and wait for a `GeoPoint` object
+                                var p = await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (_) => const SearchLocation()));
+
+                                // if the user selects a location, extract the coordinates
+                                if (p != null) {
+                                  coordinatesEnd =
+                                  "${(p as GeoPoint).latitude}, ${p.longitude}";
+                                  end.value = p;
+                                }
+                              }, icon: const Icon(Icons.restore_outlined))
+                            ],
+                          ),
+                        );
+                      },
                     ),
 
-                    // the button
-                    child: MaterialButton(onPressed: () {
-                      // raise a toast if the locations have not been selected (validation)
-                      if (coordinatesEnd == "" || coordinatesStart == "") {
-                        Fluttertoast.showToast(
-                            msg: 'Please select both the locations',
-                            toastLength: Toast.LENGTH_LONG,
-                            gravity: ToastGravity.CENTER,
-                            fontSize: 16.0
-                        );
-                      }
-                      // if the inputs are present, pass them to previous screen while
-                      // popping this screen
-                      else {
-                        Navigator.of(context).pop(
-                            [coordinatesStart, coordinatesEnd]);
-                      }
-                    }, child: const Text("Find the path!")),
-                  )
-                ],
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 8,
+                    ),
+
+                    // a button to construct the path between 2 selected points
+                    // the container is meant for styling
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(40, 20, 40, 40),
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(
+                              Radius.circular(10)),
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.deepOrange[600]!,
+                              Colors.deepOrange[200]!
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          )
+                      ),
+
+                      // the button
+                      child: MaterialButton(onPressed: () {
+                        // raise a toast if the locations have not been selected (validation)
+                        if (coordinatesEnd == "" || coordinatesStart == "") {
+                          Fluttertoast.showToast(
+                              msg: 'Please select both the locations',
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.CENTER,
+                              fontSize: 16.0
+                          );
+                        }
+                        // if the inputs are present, pass them to previous screen while
+                        // popping this screen
+                        else {
+                          Navigator.of(context).pop(
+                              [coordinatesStart, coordinatesEnd]);
+                        }
+                      }, child: const Text("Find the path!", style: TextStyle(color: Colors.white),)),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ]
+            ]
+        ),
       ),
     );
   }
