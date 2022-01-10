@@ -19,9 +19,9 @@ class MainExample extends StatefulWidget {
 class _MainExampleState extends State<MainExample> {
   late MapController controller;
   late GlobalKey<ScaffoldState> scaffoldKey;
-  Key mapGlobalkey = UniqueKey();
   Timer? timer;
   ValueNotifier<bool> trackingNotifier = ValueNotifier(false);
+  ValueNotifier<bool> clear = ValueNotifier(false);
 
   @override
   void initState() {
@@ -50,7 +50,6 @@ class _MainExampleState extends State<MainExample> {
           IconButton(onPressed: () async {
             var coordinates = await Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => const SelectLocation()));
-            print(coordinates);
             List point1 = [
               double.parse(coordinates[0].split(",")[0].trim()),
               double.parse(coordinates[0].split(",")[1].trim())
@@ -77,6 +76,7 @@ class _MainExampleState extends State<MainExample> {
                 zoomInto: true,
               ),
             );
+            clear.value = true;
             print("${roadInfo.distance}km");
             print("${roadInfo.duration}sec");
           }, icon: const Icon(Icons.directions))
@@ -127,6 +127,24 @@ class _MainExampleState extends State<MainExample> {
               ),
               roadColor: Colors.red,
             ),
+          ),
+          Positioned(
+            top:10,
+            right: 10,
+            child: ValueListenableBuilder<bool>(
+              valueListenable: clear,
+              builder: (ctx, p, builderChild) {
+                if (p){
+                return FloatingActionButton(onPressed: () async {
+                    await controller.removeLastRoad();
+                    clear.value = false;
+                },
+                    child: const Icon(Icons.clear_rounded));
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            )
           ),
           Positioned(
             bottom: 10,
