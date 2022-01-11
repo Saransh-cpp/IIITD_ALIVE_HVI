@@ -65,33 +65,44 @@ class _HomeState extends State<Home> {
     ];
 
     // draw a road between the pickup and drop point for a car
-    RoadInfo roadInfo = await controller.drawRoad(
-      GeoPoint(
-        latitude: point1[0],
-        longitude: point1[1],
-      ),
-      GeoPoint(
-        latitude: point2[0],
-        longitude: point2[1],
-      ),
-      roadType: RoadType.car,
-      roadOption: RoadOption(
-        roadWidth: 10,
-        roadColor: Colors.blue,
-        showMarkerOfPOI: true,  // marks the pickup and drop point
-        zoomInto: true,  // zooms into the road
-      ),
-    );
+    try {
+      RoadInfo roadInfo = await controller.drawRoad(
+        GeoPoint(
+          latitude: point1[0],
+          longitude: point1[1],
+        ),
+        GeoPoint(
+          latitude: point2[0],
+          longitude: point2[1],
+        ),
+        roadType: RoadType.car,
+        roadOption: RoadOption(
+          roadWidth: 10,
+          roadColor: Colors.blue,
+          showMarkerOfPOI: true, // marks the pickup and drop point
+          zoomInto: true, // zooms into the road
+        ),
+      );
 
-    // set the value of clear to true as we have a path on the map now
-    clear.value = true;
+      // set the value of clear to true as we have a path on the map now
+      clear.value = true;
 
-    Fluttertoast.showToast(
-        msg: "${roadInfo.distance} km | ${roadInfo.duration} sec",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        fontSize: 16.0
-    );
+      Fluttertoast.showToast(
+          msg: "${roadInfo.distance} km | ${roadInfo.duration} sec",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          fontSize: 16.0
+      );
+    }
+    // if a path/road doesn't exist, show a toast
+    catch (e) {
+      Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          fontSize: 16.0
+      );
+    }
   }
 
   // show or hide the current location of a user
