@@ -10,7 +10,7 @@
     
 </div>
 
-Submission for IIITD's ALIVE lab project round 2.
+Submission for IIITD's ALIVE project round 2.
 
 ## Tech stack and plugins
 - `Flutter`
