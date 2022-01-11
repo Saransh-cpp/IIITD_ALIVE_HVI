@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/actions/workflows/CI.yml/badge.svg)](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/actions/workflows/CI.yml)
 
-Submission for IIITD's ALIVE lab round 2.
+Submission for IIITD's ALIVE lab project 2.
 
 ## Tech stack and plugins
 - `Flutter`
@@ -23,6 +23,7 @@ Submission for IIITD's ALIVE lab round 2.
 - The app has a native splash screen and an app icon.
 - The code is modular and has no linting issue (which can be seen in the `CI`).
 - The code is well commented and potential errors have been handled well.
+- The UI is responsive and should work in most of the android screen sizes.
 
 ## Overall pipeline and visuals
 
@@ -49,6 +50,7 @@ https://user-images.githubusercontent.com/74055102/148904879-c3571045-d392-47b7-
 
 ## Tasks
 ### Task1
+Integrate any map API (say google/openstreet/mapmyindia) in an app.
 
 **Relevant files**
 - [`main.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/main.dart)
@@ -56,6 +58,8 @@ https://user-images.githubusercontent.com/74055102/148904879-c3571045-d392-47b7-
 
 **Pipeline**
 - The application opens up the integrated `Open Street Map` API on the home screen, which is launched my `main` method available in `main.dart`.
+- A user can navigate anywhere on the world map.
+- Finger gestures can be used to zoom in and zoom out. Additionally, 2 buttons are also provided to zoom in and zoom out.
 
 **Screenshots**
 
