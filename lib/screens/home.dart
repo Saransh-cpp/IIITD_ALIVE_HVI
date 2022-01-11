@@ -90,7 +90,7 @@ class _HomeState extends State<Home> {
       Fluttertoast.showToast(
           msg: "${roadInfo.distance} km | ${roadInfo.duration} sec",
           toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
+          gravity: ToastGravity.BOTTOM,
           fontSize: 16.0
       );
     }
@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
       Fluttertoast.showToast(
           msg: e.toString(),
           toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
+          gravity: ToastGravity.BOTTOM,
           fontSize: 16.0
       );
     }
@@ -110,18 +110,18 @@ class _HomeState extends State<Home> {
     // if the user has not already requested to show their location
     if (!trackingNotifier.value) {
 
-      // obtain the coordinated of user
+      // obtain the coordinates of user
       GeoPoint coordinates = await controller.myLocation();
 
       // move the map to user's current location and start tracking
       await controller.currentLocation();
       await controller.enableTracking();
 
-      // display the coordinated using a toast
+      // display the coordinates using a toast
       Fluttertoast.showToast(
           msg: '${coordinates.latitude}, ${coordinates.longitude}',
           toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
+          gravity: ToastGravity.BOTTOM,
           fontSize: 16.0
       );
     }

@@ -289,7 +289,7 @@ class _SelectLocationState extends State<SelectLocation> {
                           Fluttertoast.showToast(
                               msg: 'Please select both the locations',
                               toastLength: Toast.LENGTH_LONG,
-                              gravity: ToastGravity.CENTER,
+                              gravity: ToastGravity.BOTTOM,
                               fontSize: 16.0
                           );
                         }
