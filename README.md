@@ -174,7 +174,7 @@ Adding the following lines in `android/app/src/mai/AndroidManifest.xml` -
 </manifest>
 ```
 
-The following lines should be removed/edited because of some limitations/bugs of `flutter_osm` (which I discovered while working on the same) -
+The following lines should be removed/edited because of some limitations/bugs of `flutter_osm` (which I discovered while working on the same, the relevant bug report filed by me - https://github.com/liodali/osm_flutter/issues/211) -
 1. Remove line 114 and lines 121-126 in `home.dart` -
 ```dart
       // obtain the coordinated of user
