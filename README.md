@@ -74,6 +74,7 @@ Integrate any map API (say google/openstreet/mapmyindia) in an app.
 
 **Screenshots**
 
+<img src="./readme_assets/Screenshot_20220110-185833.jpg" height=500/>
 
 **Screen Recording**
 
@@ -89,6 +90,8 @@ Get the current location of the user and show it on the map.
 - Home screen has a `FloatingActionButton` that centers the map to user's current location and displays the coordinates in the form of a toast.
 
 **Screenshots**
+
+<img src="./readme_assets/Screenshot_20220110-191027.jpg" height=500/>
 
 **Screen Recording**
 
@@ -111,6 +114,15 @@ Select two different locations (Where to, where from) for the pickup and drop fe
 
 **Screenshots**
 
+<p float="left">
+    
+<img src="./readme_assets/Screenshot_20220110-191150.jpg" height=400/>
+<img src="./readme_assets/Screenshot_20220110-191116.jpg" height=400/>
+<img src="./readme_assets/Screenshot_20220110-191134.jpg" height=400/>
+<img src="./readme_assets/Screenshot_20220110-200520.jpg" height=400/>
+
+</p>
+
 **Screen Recording**
 
 https://user-images.githubusercontent.com/74055102/148905131-0dffa1b2-5827-4c88-a1bb-b7a664208f53.mp4
@@ -129,6 +141,8 @@ https://user-images.githubusercontent.com/74055102/148905131-0dffa1b2-5827-4c88-
 - When the path/road is active, a `FloatingActionButton` appears at the top-right corner of the screen which can be used to remove the path/road. The button disappears when there is no highlighted path/road.
 
 **Screenshots**
+
+<img src="./readme_assets/Screenshot_20220110-191150.jpg" height=500/>
 
 **Screen Recording**
 
