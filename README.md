@@ -45,6 +45,8 @@ Submission for IIITD's ALIVE lab round 2.
 
 **Screen Recording**
 
+https://user-images.githubusercontent.com/74055102/148904879-c3571045-d392-47b7-8446-b345e7f39fe4.mp4
+
 ## Tasks
 ### Task1
 
@@ -60,6 +62,7 @@ Submission for IIITD's ALIVE lab round 2.
 
 **Screen Recording**
 
+https://user-images.githubusercontent.com/74055102/148905081-4625900f-bf9d-4fc4-8fbc-ef481d8b617a.mp4
 
 ### Task2
 
@@ -72,6 +75,8 @@ Submission for IIITD's ALIVE lab round 2.
 
 **Screen Recording**
 
+https://user-images.githubusercontent.com/74055102/148905038-42575dfe-93ca-463d-9cea-067d13867fef.mp4
+
 ### Task3
 
 **Relevant files**
@@ -83,6 +88,8 @@ Submission for IIITD's ALIVE lab round 2.
 **Screenshots**
 
 **Screen Recording**
+
+https://user-images.githubusercontent.com/74055102/148905131-0dffa1b2-5827-4c88-a1bb-b7a664208f53.mp4
 
 ### Task4
 
@@ -97,6 +104,8 @@ Submission for IIITD's ALIVE lab round 2.
 
 **Screen Recording**
 
+https://user-images.githubusercontent.com/74055102/148905131-0dffa1b2-5827-4c88-a1bb-b7a664208f53.mp4
+
 ### Task5
 
 **Relevant files**
@@ -105,9 +114,6 @@ Submission for IIITD's ALIVE lab round 2.
 
 **Pipeline**
 
-**Screenshots**
-
-**Screen Recording**
 
 ## Building a release APK
 **The app works with no issues in the debug mode**
