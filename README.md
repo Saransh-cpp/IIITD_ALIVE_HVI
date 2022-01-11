@@ -1,8 +1,16 @@
 # IIITD ALIVE HVI submission
 
-[![CI](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/actions/workflows/CI.yml/badge.svg)](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/actions/workflows/CI.yml)
+<p align="centre">
+    <img src="./readme_assets/overall_app.png"/>
+</p>
 
-Submission for IIITD's ALIVE lab project 2.
+<div align="center">
+
+[![CI](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/actions/workflows/CI.yml/badge.svg)](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/actions/workflows/CI.yml)
+    
+</div>
+
+Submission for IIITD's ALIVE lab project round 2.
 
 ## Tech stack and plugins
 - `Flutter`
@@ -11,6 +19,11 @@ Submission for IIITD's ALIVE lab project 2.
 - [`flutter_osm_plugin`](https://pub.dev/packages/flutter_osm_plugin)
 - [`flutter_toast`](https://pub.dev/packages/fluttertoast)
 - `CI` pipeline using `GitHub Actions`
+
+**Developer plugins**
+
+- [`flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons)
+- [`flutter_native_splash`](https://pub.dev/packages/flutter_native_splash)
 
 ## Features
 - The application integrates the `Open Street Map` API with `Flutter`.
@@ -25,7 +38,7 @@ Submission for IIITD's ALIVE lab project 2.
 - The code is well commented and potential errors have been handled well.
 - The UI is responsive and should work in most of the android screen sizes.
 
-## Overall pipeline and visuals
+## Application overview
 
 **Relevant files**
 - [`main.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/main.dart)
@@ -34,8 +47,6 @@ Submission for IIITD's ALIVE lab project 2.
 - [`screens/search_location.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/search_location.dart)
 - [`.github/workflows/CI.yml`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/.github/workflows/CI.yml)
 - [`README.md`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/README.md)
-
-**Pipeline**
 
 **MockUps**
 <p align="centre">
@@ -69,11 +80,13 @@ Integrate any map API (say google/openstreet/mapmyindia) in an app.
 https://user-images.githubusercontent.com/74055102/148905081-4625900f-bf9d-4fc4-8fbc-ef481d8b617a.mp4
 
 ### Task2
+Get the current location of the user and show it on the map.
 
 **Relevant files**
 - [`home.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/home.dart)
 
 **Pipeline**
+- Home screen has a `FloatingActionButton` that centers the map to user's current location and displays the coordinates in the form of a toast.
 
 **Screenshots**
 
@@ -82,12 +95,19 @@ https://user-images.githubusercontent.com/74055102/148905081-4625900f-bf9d-4fc4-
 https://user-images.githubusercontent.com/74055102/148905038-42575dfe-93ca-463d-9cea-067d13867fef.mp4
 
 ### Task3
+Select two different locations (Where to, where from) for the pickup and drop feature from the map.
 
 **Relevant files**
 - [`select_locations.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/select_locations.dart)
 - [`search_location.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/search_location.dart)
 
 **Pipeline**
+- Home screen has a button available in the `AppBar` that redirects user to a new screen, from where they can select pickup and drop location.
+- The new screen (`SelectLocation`) has 3 buttons, one to select the pickup location, one to select the drop location, and one to draw a path between them.
+- Clicking on any of the first 2 bottons redirects the user to a map screen (`SearchLocation`) where the user can select their location by navigating to it and pressing the `FloatingActionButton`.
+- The map in `SearchLocation` screen automatically takes the user to their current location after loading for a bit, but the user can also navigate to any other location before or after the current location loads (shown in the screenrecording).
+- Once a location is selected, the coordinates are displayed on the `SelectLocation` screen with an option to edit the location.
+- Once both the locations are selected, a user can proceed ahead to visualise a path between them.
 
 **Screenshots**
 
@@ -103,6 +123,10 @@ https://user-images.githubusercontent.com/74055102/148905131-0dffa1b2-5827-4c88-
 - [`search_location.dart`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/lib/screens/search_location.dart)
 
 **Pipeline**
+- After clicking the "Find the path!" button in `SelectLocation` screen, the user is redirected to home screen.
+- A path/road (for a car, which can be easily scaled to other vehicles) is drawn in the home screen that connects the slected pickup and drop location.
+- Additionally, the distance and the approximate time taken by a car to reach the drop point is also displayed through a toast.
+- When the path/road is active, a `FloatingActionButton` appears at the top-right corner of the screen which can be used to remove the path/road. The button disappears when there is no highlighted path/road.
 
 **Screenshots**
 
@@ -111,12 +135,11 @@ https://user-images.githubusercontent.com/74055102/148905131-0dffa1b2-5827-4c88-
 https://user-images.githubusercontent.com/74055102/148905131-0dffa1b2-5827-4c88-a1bb-b7a664208f53.mp4
 
 ### Task5
+The code should be well documented with comments and also, create a README describing the complete pipeline.
 
 **Relevant files**
 - [`README.md`](https://github.com/Saransh-cpp/IIITD_ALIVE_HVI/blob/main/README.md)
 - All the files are well commented.
-
-**Pipeline**
 
 
 ## Building a release APK
