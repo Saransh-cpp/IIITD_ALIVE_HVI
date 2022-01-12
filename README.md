@@ -12,6 +12,8 @@
 
 Submission for IIITD's ALIVE project round 2.
 
+**Note**: There was a bug in [`flutter_osm_plugin`](https://pub.dev/packages/flutter_osm_plugin) which was filed by me here - https://github.com/liodali/osm_flutter/issues/211. This has been fixed now and I am pushing the code to build the release apk after the deadline (rest of the code was written before the deadline). For more reference - https://github.com/Saransh-cpp/IIITD_ALIVE_HVI#building-a-release-apk
+
 ## Tech stack and plugins
 - `Flutter`
 - `Dart`
@@ -157,6 +159,16 @@ The code should be well documented with comments and also, create a README descr
 
 
 ## Building a release APK
+
+**The bug in the plugin has been fixed by its author. To build and install the release apk - **
+```
+flutter clean
+flutter build apk
+flutter install
+```
+
+**=====The text present below (in this particular section) is not relevant now, as the bug has been fixed by the plugin's author=====**
+
 **The app works with no issues in the debug mode**
 
 The app still runs in the debug mode but can be migrated to a release build -
