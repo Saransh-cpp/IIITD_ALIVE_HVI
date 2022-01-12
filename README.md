@@ -160,7 +160,7 @@ The code should be well documented with comments and also, create a README descr
 
 ## Building a release APK
 
-**The bug in the plugin has been fixed by its author. To build and install the release apk - **
+**The bug in the plugin has been fixed by its author. To build and install the release apk -**
 ```
 flutter clean
 flutter build apk
